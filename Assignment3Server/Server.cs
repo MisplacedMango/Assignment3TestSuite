@@ -1,4 +1,4 @@
-﻿//Comments written for lines of cide written by me, comments for the lines of code are written on top of the code.
+﻿//Comments written for lines of code written by me, comments for the lines of code are written on top of the code.
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
@@ -48,21 +48,21 @@ public class Server
         }
 
     }
-    // Here we manage the communcation with the connected client
+    // Here we manage the communication with the connected client
     private void HandleClient(TcpClient client)  
     {
         try
         {
-            //Get the network stream associated with the client, which allows reading from and writing tothe client
+            //Get the network stream associated with the client, which allows reading from and writing to the client
             var stream = client.GetStream();
-            // Reading incoming requests from the cleint and store it in the request Json variable
+            // Reading incoming requests from the client and store it in the request Json variable
             string requestJson = ReadFromStream(stream); 
-            //Log the message recieved from the client to the console for debugging purposes
+            //Log the message received from the client to the console for debugging purposes
             Console.WriteLine("Message from client: " + requestJson); 
 
-            //process requests and getting respose in the forms of JSON strings
+            //process requests and getting response in the forms of JSON strings
             string responseJson = RequestProcessor.ProcessRequest(requestJson);
-            //Sending the response back to the cleint through the network stream
+            //Sending the response back to the client through the network stream
             WriteToStream(stream, responseJson); 
         }
         catch (Exception ex)
@@ -93,7 +93,7 @@ public class Server
     }
 
 
-    //This class deines the structure of a request that the server expects from clients
+    //This class defines the structure of a request that the server expects from clients
 
     public class Request
     {
@@ -103,7 +103,7 @@ public class Server
         public string Path { get; set; } 
         //The date to validate a request in Unix format as set forth by the assignment.
         public string Date { get; set; }
-        //The main content of the request, which can be prossed or echoed
+        //The main content of the request, which can be prosed or echoed
         public string Body { get; set; }
     }
     // This class defines the structure of the response that the server sends back to clients
@@ -111,10 +111,10 @@ public class Server
     {
         //The status of the response, such as success or error
         public string Status { get; set; }
-        //The content of the response, containg the result of processing the request
+        //The content of the response, contains the result of processing the request
         public string Body { get; set; }
     }
-    //This class is responsible for processing requests recieved by the server.
+    //This class is responsible for processing requests received by the server.
     public class RequestProcessor
     {
         //This method takes a JSON string as input, converts it to a request object, and processes it.
@@ -126,7 +126,7 @@ public class Server
             //Validation of request
             if (request == null || string.IsNullOrEmpty(request.Method))
             {
-                //If the request is incalid return invalid response
+                //If the request is invalid return invalid response
                 return ErrorResponse("Invalid Request format");
             }
 
@@ -134,7 +134,7 @@ public class Server
             switch (request.Method.ToLower())
             {
                 case "update":
-                    //Check if the update request is calid; if not, return an error.
+                    //Check if the update request is valid; if not, return an error.
                     if (!IsValidUpdateRequest(request))
                     {
                         return ErrorResponse("Invalid update request format! ");
@@ -142,7 +142,7 @@ public class Server
                     //If valid, return a success response for the update.
                     return SuccessResponse("Update was successful! ");
                 case "echo":
-                    //For echo requests, return the body of requests back as success repsonse
+                    //For echo requests, return the body of requests back as success response
                     return SuccessResponse(request.Body);
 
                 default:
@@ -175,7 +175,7 @@ public class Server
             // Create a new Response object with the status and body content
             Response response = new Response
             {
-                Status = "sucess",
+                Status = "success",
                 Body = body
             };
             //Serialize the Response object into a JSON string and return it
@@ -185,7 +185,7 @@ public class Server
         //This method creates an error response as a JSON string, providing information about what went wrong.
         private static string ErrorResponse(string errorMessage)
         {
-            //Create a new reponse object with the error status and message.
+            //Create a new response object with the error status and message.
             Response response = new Response
             {
                 Status = "Error",
